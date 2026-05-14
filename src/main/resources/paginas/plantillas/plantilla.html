@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>Calendario</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/jquery-ui.min.css}" rel="stylesheet">
+    <link th:href="@{/tema/miestilo.css}" rel="stylesheet">
+</head>
+<body>
+<header th:fragment="header">
+    <nav class="navbar bg-body-tertiary" style="position: relative; z-index: 1050;">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/auth/inicio}">
+                <img th:src="@{/images/IconoPerfil.png}"  width="35" height="29">
+                    <span class="align-content-center" style="font-family:'sans-serif'; color: #0a3622; font-size: 15px"
+                          th:text="${usuarioNombre}">Usuario</span>
+            </a>
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a th:href="@{/auth/inicio}" class="navbar-brand">Inicio</a>
+                </li>
+                <li>
+                    <div class="btn-group">
+
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                            Tareas
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                            <li><a class="dropdown-item " th:href="@{/auth/tareas/ver-lista-tareas}" >Lista de Tareas</a></li>
+                            <li><a class="dropdown-item " th:href="@{/auth/tareas/crear-tarea}">Crear Tarea</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                            Subtareas
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                            <li><a class="dropdown-item " th:href="@{/auth/subtareas/ver-lista-subtareas}" >Lista de Subtareas</a></li>
+                            <li><a class="dropdown-item " th:href="@{/auth/subtareas/crear-subtarea}">Crear Subtarea</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                            Clase Tarea
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                            <li><a class="dropdown-item " th:href="@{/auth/clase-tareas/ver-lista-clase_tareas}" >Lista de Clases Tareas</a></li>
+                            <li><a class="dropdown-item " th:href="@{/auth/clase-tareas/crear-clase_tarea}">Crear Clase Tarea</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                Opciones del usuario
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+                <li><a class="dropdown-item" th:href="@{/admin/usuario/ver-usuario}">Editar perfil</a></li>
+                <li><a class="dropdown-item " th:href="@{/admin/usuario/ver-subtareas-eliminadas}">Subatreas descartadas</a></li>
+                <li>
+                    <a class="dropdown-item " data-bs-toggle="modal" data-bs-target="#logoutModal">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--    EStos son los mensajes que se pueden menter desde el model.addAtributte y manda mensaje -->
+    <div class="alert alert-success" th:if="${success !=null}" th:text="${success}"></div>
+    <div class="alert alert-danger" th:if="${error !=null}" th:text="${error}"></div>
+    <div class="alert alert-warning" th:if="${warning !=null}" th:text="${warning}"></div>
+    <div class="alert alert-info" th:if="${info !=null}" th:text="${info}"></div>
+
+    <!-- Modal de confirmación -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="logoutModalLabel">Cerrar sesión</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro que quieres cerrar sesión?
+                </div>
+                <div class="modal-footer">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-danger">Sí, cerrar sesión</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Error-->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-danger">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="errorModalLabel" th:text="'Ocurrió un error (' + ${status} + ')'">Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="text-danger" th:text="${error}">Error genérico</h6>
+                    <p th:text="${mensaje}">Mensaje de error</p>
+                    <ul class="list-group mb-2" th:if="${fields != null}">
+                        <li class="list-group-item" th:each="entry : ${fields}">
+                            <strong th:text="${entry.key}"></strong>: <span th:text="${entry.value}"></span>
+                        </li>
+                    </ul>
+                    <p class="text-muted" th:text="'Fecha y hora: ' + ${timestamp}">Fecha y hora</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Modal de exito-->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-success">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Éxito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p th:text="${success}">Operación exitosa</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+
+<footer th:fragment="footer">
+    <div class="container text-center">
+        <div class="col-12">
+            <img class="img-fluid" style="border-bottom-color: #fcfcfd" th:src="@{/images/LogoDGTIC.png}" width="35%" height="35%">
+            <br/>
+            <p>Dirección General de Cómputo y de Tecnologías de Información y Comunicación</p>
+        </div>
+    </div>
+    <script th:src="@{/bootstrap/js/jquery-3.6.3.js}"></script>
+    <script th:src="@{/bootstrap/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/bootstrap/js/popper.min.js}"></script>
+    <script th:if="${success != null}">
+        var mySuccessModal = new bootstrap.Modal(document.getElementById('successModal'));
+        mySuccessModal.show();
+    </script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container text-center shadow-lg p-3 mb-5 bg-color-titulo rounded">
+    <h1 class="display-4" th:text="${titulo}"></h1>
+    <h3 th:text="${contenido}"></h3>
+
+    <div class="card-body ">
+        <form th:action="@{/auth/clase-tareas/guardar-clase_tarea}" th:object="${claseTarea}" method="post">
+            <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
+                Verifique los siguientes errores
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                </ul>
+            </div>
+            <div class="row gx-5 gy-3 text-start">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="nombre">Nombre de la clase tarea: </label>
+                        <input type="text"
+                               th:class="${#fields.hasErrors('nombre')}? 'form-control is-invalid':'form-control'"
+                               id="nombre"
+                               name="nombre"
+                               placeholder="Agrega el nombre " required
+                               th:field="*{nombre}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="colores">Colores Disponibles</label>
+                        <select class="form-control" th:field="*{color}" id="colores" required>
+                            <option value="" disabled selected>-- Selecciona un color --</option>
+                            <option th:each="col : ${colores}"
+                                    th:value="${col.codigo}"
+                                    th:style="'background-color:' + ${col.codigo} + '; color:white;'"
+                                    th:text="${#strings.capitalize(col.name.toLowerCase())}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12 align-content-center">
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+            <input type="hidden" name="idTarea" th:value="${claseTarea.idClaseTarea}"/>
+        </form>
+    </div>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

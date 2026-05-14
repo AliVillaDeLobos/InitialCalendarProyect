@@ -1,0 +1,33 @@
+html {
+    height: 100%;
+}
+body{
+     height: 100%;
+      background: #260905;
+      background: linear-gradient(135deg, #E82A05 23%, #F29C8D 100%);
+}
+
+.bg-fondo-general{
+    box-shadow: 0 .9rem 1rem rgba(0,0,0,.15), 2px 2px 4px #0CF20C;
+    background: #260905;
+    background: linear-gradient(135deg, #E82A05 23%, #F29C8D 100%);
+}
+
+.bg-mi-color{
+    background: #260905;
+}
+
+.bg-color-titulo{
+    background: #A8A811;
+}
+
+/* Texto de los items */
+.dropdown-menu.bg-mi-color .dropdown-item {
+    color: #fcfcfd !important; /* texto en blanco */
+}
+
+/* Hover sobre los items */
+.dropdown-menu.bg-mi-color .dropdown-item:hover {
+    background-color: #4A1C18 !important;
+    color: #fcfcfd !important;
+}

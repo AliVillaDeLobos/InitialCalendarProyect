@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+
+<div class="container-fluid">
+    <div class="d-flex" style="height: 90vh; gap: 20px;">
+
+        <!-- TABLA DEL CALENDARIO -->
+        <div class="table-responsive border rounded shadow-sm p-0"
+             style="width: 82%; height: 90vh; overflow-y: visible; position: relative; z-index: 1;">
+            <table class="table table-bordered table-sm">
+                <thead class="table-light sticky-top">
+                <tr>
+                    <th style="width: 3%; text-align: center">Hrs</th>
+                    <th style="width: 13.857%; text-align: center">Lunes<br></th>
+                    <th style="width: 13.857%; text-align: center">Martes<br></th>
+                    <th style="width: 13.857%; text-align: center">Miércoles<br></th>
+                    <th style="width: 13.857%; text-align: center">Jueves<br></th>
+                    <th style="width: 13.857%; text-align: center">Viernes<br></th>
+                    <th style="width: 13.857%; text-align: center">Sábado<br></th>
+                    <th style="width: 13.857%; text-align: center">Domingo<br></th>
+                </tr>
+                </thead>
+                <tbody id="calendar-body">
+                <!-- Filas de horas generadas dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PANEL LATERAL -->
+        <div class="d-flex flex-column" style="width: 30%; height: 100%; gap: 10px;">
+
+<!--             TARJETA DE TAREA PRINCIPAL-->
+            <div id="tarea-principal-card" class="card mb-2" style="height: 50%;">
+                <div class="card-body">
+                    <h5 id="tarea-principal-nombre" class="card-title">Tarea principal</h5>
+                    <ul id="lista-subtareas" class="list-group list-group-flush"></ul>
+                </div>
+            </div>
+
+
+            <!--<div class="card mb-2" style="height: 50%;">
+                <div class="card-body d-flex justify-content-between flex-column">
+                    <h5 class="card-title">Tarea principal</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        Subtarea seleccionada pertenece
+                    </h6>
+                    <br>
+                    <p style="margin-bottom: 0px">Lista de las subtareas pertenecientes a la tarea</p>
+                    <div class="d-flex" style="margin-left: 5px; margin-top: 0px;">
+                        <ul class="list-group list-group-flush" style="margin-left: 10px;">
+                            <li>Lista de las subtareas de la tarea
+                                <div class="progress" role="progressbar" aria-label="Example with label"
+                                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar" style="width: 25%">25%</div>
+                                </div>
+                            </li>
+                            <li>Lista de las subtareas de la tarea
+                                <div class="progress" role="progressbar" aria-label="Example with label"
+                                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar" style="width: 25%">25%</div>
+                                </div>
+                            </li>
+                            <li>Lista de las subtareas de la tarea
+                                <div class="progress" role="progressbar" aria-label="Example with label"
+                                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar" style="width: 25%">25%</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group mt-auto" style="width: 100%;">
+                        <a href="#" class="btn btn-primary">Editar tarea</a>
+                    </div>
+                </div>
+            </div>-->
+
+
+<!--             TARJETA DE SUBTAREA-->
+            <div id="subtarea-card" class="card mb-2" style="height: 50%;">
+                <div class="card-body">
+                    <h5 id="subtarea-nombre" class="card-title">Subtarea</h5>
+                    <p id="subtarea-descripcion" class="card-text">Sin descripción</p>
+                    <p><strong>Estado:</strong> <span id="subtarea-estado"></span></p>
+                </div>
+            </div>
+
+
+            <!--<div class="card mb-2" style="height: 50%;">
+                <div class="card-body d-flex justify-content-between flex-column">
+                    <h5 class="card-title">Subtarea</h5>
+                    <div class="progress" role="progressbar" aria-label="Example with label"
+                         aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: 50%">50%</div>
+                    </div>
+                    <br><br>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Descripción:</h6>
+                    <p class="card-text">Descripción del texto si se tiene, sino "Sin descripción"</p>
+                    <div class="btn-group d-flex mt-auto" style="width: 100%;" role="group"
+                         aria-label="Basic mixed styles example">
+                        <button type="button" class="btn btn-success flex-fill">Completada</button>
+                        <button type="button" class="btn btn-warning flex-fill">Editar</button>
+                        <button type="button" class="btn btn-danger flex-fill">Eliminar</button>
+                    </div>
+                </div>
+            </div>-->
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.subtareas = /*[[${diasSubtareas}]]*/ [];
+    window.subtareasFormateadas = [];
+
+    // Días sin tildes
+    const diasSemana = ['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
+
+    function quitarTildes(str) {
+        return str ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "") : "";
+    }
+
+    // Convertir DTOs del backend a objetos JS que usaremos en el calendario
+    window.subtareas.forEach(function(dto) {
+        // dto.nombreDia viene como "MARTES" o "MIERCOLES"
+        const nombreDiaNormalized = quitarTildes(dto.nombreDia.toLowerCase());
+        const diaIndex = diasSemana.indexOf(nombreDiaNormalized);
+
+        if (diaIndex !== -1 && dto.horas) {
+            dto.horas.forEach(function(h) {
+                window.subtareasFormateadas.push({
+                    idSubtarea: dto.idSubtarea,                   // importante: id para seleccionar
+                    // opcional: idTarea si lo incluyes en el DTO para agrupar por tarea
+                    idTarea: dto.idTarea || null,
+                    nombreSubtarea: dto.nombreSubtarea,
+                    dia: diaIndex,
+                    hora: h,
+                    estado: dto.estado,
+                    colorClase: dto.colorClase || '#007bff',
+                    descripcion: dto.descripcion || ''           // opcional si lo tienes en DTO
+                });
+            });
+        }
+    });
+
+    console.log('subtareasFormateadas ->', window.subtareasFormateadas);
+    /*]]>*/
+
+    function mostrarDetallesSubtarea(idSubtarea) {
+        const subtarea = (window.subtareasFormateadas || []).find(s => s.idSubtarea === idSubtarea);
+        if (!subtarea) return;
+
+        // Actualizar panel lateral (IDs que tienes en tu HTML)
+        const nombreEl = document.getElementById('subtarea-nombre');
+        const descEl = document.getElementById('subtarea-descripcion');
+        const estadoEl = document.getElementById('subtarea-estado');
+        const listaRel = document.getElementById('lista-subtareas');
+
+        if (nombreEl) nombreEl.textContent = subtarea.nombreSubtarea;
+        if (descEl)  descEl.textContent = subtarea.descripcion || 'Sin descripción';
+        if (estadoEl) estadoEl.textContent = subtarea.estado || '';
+
+        // listar relacionadas por idTarea (necesitas idTarea en DTO para esto)
+        if (listaRel) {
+            listaRel.innerHTML = '';
+            if (subtarea.idTarea) {
+                const relacionadas = (window.subtareasFormateadas || []).filter(s => s.idTarea === subtarea.idTarea);
+                relacionadas.forEach(r => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.textContent = `${r.nombreSubtarea} (${r.hora}:00)`;
+                    listaRel.appendChild(li);
+                });
+            } else {
+                // Si no tienes idTarea, simplemente muestro la propia
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.textContent = `${subtarea.nombreSubtarea} (${subtarea.hora}:00)`;
+                listaRel.appendChild(li);
+            }
+        }
+
+
+    }
+</script>
+
+<script src="/bootstrap/js/horas-calendario.js"></script>
+</body>
+</html>

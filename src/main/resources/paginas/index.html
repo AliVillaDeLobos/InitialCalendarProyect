@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<meta http-equiv="refresh" content="2;URL=http://localhost:8080/entrada">-->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/tema/miestilo.css}" rel="stylesheet">
+    <title>Index</title>
+</head>
+<body>
+<div class="container text-center">
+    <header class="row">
+        <div class="col-12">
+            <img class="img-fluid" style="border-bottom-color: #fcfcfd" th:src="@{/images/LogoDGTIC.png}" width="35%" height="35%">
+            <br/>
+        </div>
+    </header>
+
+    <header class="row">
+        <div class="col">
+            <h1 th:text="${mensaje}"></h1>
+            <h3 th:text="${valor}"></h3>
+        </div>
+
+        <!-- Botones -->
+        <div class="d-flex justify-content-center gap-3">
+            <button type="button" class="btn btn-outline-primary btn-lg" data-bs-toggle="modal" data-bs-target="#loginModal">
+                <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+            </button>
+            <button type="button" class="btn btn-outline-success btn-lg" data-bs-toggle="modal" data-bs-target="#registerModal">
+                <i class="bi bi-person-plus"></i> Registrarse
+            </button>
+        </div>
+        <!-- Iniciar Sesión -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content shadow-lg border-0">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="loginModalLabel">
+                            <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger" th:if="${error !=null}" th:text="${error}"></div>
+                        <form th:action="@{/procesar-login}" method="post" th:object="${usuario}">
+                            <div class="container-fluid">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <label for="emailLogin" class="form-label">Correo electrónico</label>
+                                        <input type="email"
+                                               th:class="${#fields.hasErrors('email')} ? 'form-control is-invalid':'form-control'"
+                                               th:field="*{email}"
+                                               id="emailLogin"
+                                               placeholder="ejemplo@correo.com"
+                                               required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="usuarioPasswordLogin" class="form-label">Contraseña</label>
+                                        <input type="password"
+                                               th:class="${#fields.hasErrors('usuarioPassword')} ? 'form-control is-invalid':'form-control'"
+                                               th:field="*{usuarioPassword}"
+                                               id="usuarioPasswordLogin"
+                                               class="form-control"
+                                               placeholder="********"
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-box-arrow-in-right"></i> Entrar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <small class="text-muted">
+                            ¿No tienes cuenta?
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">Regístrate aquí</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Registro -->
+        <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content shadow-lg border-0">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="registerModalLabel">
+                            <i class="bi bi-person-plus"></i> Crear Cuenta
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="alert alert-success" th:if="${success !=null}" th:text="${success}"></div>
+                        <div class="alert alert-danger" th:if="${error !=null}" th:text="${error}"></div>
+                        <div class="alert alert-warning" th:if="${warning !=null}" th:text="${warning}"></div>
+                        <div class="alert alert-info" th:if="${info !=null}" th:text="${info}"></div>
+                        <form th:action="@{/registrar}" method="post" th:object="${usuario}">
+                            <!-- Grid con spacing y padding -->
+                            <div class="container-fluid">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Nombre(s)</label>
+                                        <input type="text"
+                                               th:class="${#fields.hasErrors('nombre')} ? 'form-control is-invalid':'form-control'"
+                                               th:field="*{nombre}"
+                                               placeholder="Escribe tu nombre" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Primer apellido</label>
+                                        <input type="text"
+                                               th:class="${#fields.hasErrors('apellidoPaterno')} ? 'form-control is-invalid':'form-control'"
+                                               th:field="*{apellidoPaterno}"
+                                               placeholder="Primer apellido" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Segundo apellido</label>
+                                        <input type="text"
+                                               th:class="${#fields.hasErrors('apellidoMaterno')} ? 'form-control is-invalid':'form-control'"
+                                               th:field="*{apellidoMaterno}"
+                                               placeholder="Segundo apellido" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Correo electrónico</label>
+                                        <input type="email"
+                                               th:class="${#fields.hasErrors('email')} ? 'form-control is-invalid':'form-control'"
+                                               th:field="*{email}"
+                                               placeholder="ejemplo@correo.com" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Contraseña</label>
+                                        <input type="password"
+                                               th:class="${#fields.hasErrors('usuarioPassword')} ? 'form-control is-invalid':'form-control'"
+                                               th:field="*{usuarioPassword}"
+                                               placeholder="********" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Botón -->
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="bi bi-check2-circle"></i> Registrarse
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <small class="text-muted">
+                            ¿Ya tienes cuenta?
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Inicia sesión</a>
+                        </small>
+                        <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de sesión expirada -->
+        <div class="modal fade" id="sessionExpiredModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-dark">
+                        <h5 class="modal-title">Sesión expirada</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tu sesión ha expirado por inactividad. Por favor, inicia sesión de nuevo.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a th:href="@{/login}" class="btn btn-primary">Aceptar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+</div>
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const mostrarRegistro = /*[[${mostrarRegistro}]]*/ false;
+    const mostrarLogin = /*[[${mostrarLogin}]]*/ false; // si luego quieres hacer lo mismo con el login
+
+    document.addEventListener("DOMContentLoaded", function () {
+        if (mostrarRegistro) {
+            const registroModal = new bootstrap.Modal(document.getElementById('registerModal'));
+            registroModal.show();
+        }
+        if (mostrarLogin) {
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        }
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const invalid = urlParams.get('invalid');
+    if (invalid === 'true' || invalid !== null) {
+        const modal = new bootstrap.Modal(document.getElementById('sessionExpiredModal'));
+        modal.show();
+    }
+    /*]]>*/
+</script>
+
+</body>
+<footer>
+
+</footer>
+</html>
