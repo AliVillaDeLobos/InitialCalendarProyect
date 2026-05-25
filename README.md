@@ -14,7 +14,7 @@ Permite:
 ## Tecnologías
 - **Backend:** Java 17, Spring Boot 3.x
 - **Frontend:** Thymeleaf, HTML5, CSS3, Bootstrap
-- **Base de datos:** H2 (desarrollo) / MySQL (producción)
+- **Base de datos:** MySQL (producción)
 - **Seguridad:** Spring Security, BCrypt
 - **Control de versiones:** Git
 
