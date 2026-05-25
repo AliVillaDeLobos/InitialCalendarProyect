@@ -63,7 +63,7 @@ public class PrincipalController {
     }
 
 
-    @PostMapping("/procesar-login")
+/*    @PostMapping("/procesar-login")
     public String login(@ModelAttribute Usuario usuario, Model model, RedirectAttributes redirectAttributes) {
         Usuario usr = usuarioService.findByEmail(usuario.getEmail()).orElse(null);
         if (usr == null) {
@@ -78,6 +78,6 @@ public class PrincipalController {
         }
         model.addAttribute("success", "Ingresaste con éxito");
         return "redirect:/auth/inicio";
-    }
+    }*/
 
 }
