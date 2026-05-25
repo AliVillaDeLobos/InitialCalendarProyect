@@ -20,6 +20,15 @@ Permite:
 
 ---
 
+## Arquitectura
+
+- MVC con Spring Boot
+- Spring Security + BCrypt
+- Persistencia con Spring Data JPA
+- Thymeleaf para renderizado del frontend
+
+---
+
 ## Funcionalidades principales
 
 ### Gestión de usuarios
