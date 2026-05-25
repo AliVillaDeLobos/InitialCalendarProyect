@@ -33,6 +33,7 @@ public class Usuario {
      @Column(name = "correo")
     private String email;
      @NotNull(message = "Contraseña necesaria")
+     @Column(name = "password_hash")
     private String usuarioPassword;
 
      @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)

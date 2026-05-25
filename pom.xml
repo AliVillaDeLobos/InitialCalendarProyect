@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>dgtic.core</groupId>
 	<artifactId>proyecto_final</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0v</version>
 	<name>proyecto_final</name>
-	<description>Proyecto final para Modulo 08 usando MVC</description>
+	<description>Proyecto base para manejo de aplicaciones web, enfocado en el crecimiento continuo y BackEnd</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -30,10 +30,6 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-		<!--<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -64,11 +60,10 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
