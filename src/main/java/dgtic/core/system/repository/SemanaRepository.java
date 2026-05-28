@@ -18,4 +18,6 @@ public interface SemanaRepository extends JpaRepository<Semana, Integer> {
     @Query("SELECT s FROM Semana s WHERE :fecha BETWEEN s.fechaInicio AND s.fechaFin")
     Optional<Semana> findSemanaActual(@Param("fecha") LocalDate fecha);
 
+    Boolean existsByNumeroSemanaAndAnioSemana(Integer numeroSemana, Integer anioSemana);
+
 }

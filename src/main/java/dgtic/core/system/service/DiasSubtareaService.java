@@ -17,6 +17,7 @@ public interface DiasSubtareaService {
     DiaSubtarea guardar(DiaSubtarea diaSubtarea);
 //    List<DiasSubtareaDto> listarDiasYHorasPorSubtarea(List<Subtarea> subtareas);
     List<DiasSubtareaDto> listarDiasYHorasPorSubtarea(String email);
+    public void agregarDiasSubtarea(Integer idSubtarea, List<DiasDeSemana> diasSemana, Integer idSemana);
 
 
 }

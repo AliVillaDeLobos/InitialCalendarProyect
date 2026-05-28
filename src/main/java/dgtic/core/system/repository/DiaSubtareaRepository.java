@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface DiaSubtareaRepository extends JpaRepository<DiaSubtarea, Integer> {
     @Transactional
@@ -31,4 +32,12 @@ LEFT JOIN FETCH ds.horas h
 WHERE ds.subtarea.id = :idSubtarea
 """)
     List<DiaSubtarea> findBySubtareaId(@Param("idSubtarea") Integer idSubtarea);
+
+    @Query("""
+    SELECT ds.dia.id
+    FROM DiaSubtarea ds
+    WHERE ds.subtarea.id = :idSubtarea
+    AND ds.dia.id IN :diaIds
+    """)
+    Set<Integer> findExistingDiaIdsBySubtareaAndDiaIds(Integer idSubtarea, List<Integer> diaIds);
 }

@@ -19,7 +19,7 @@
                                name="nombre"
                                th:value="${nombre}"
                                placeholder="Ingresa el nombre de la subtarea" required>
-                        <button type="submit" class="btn btn-primary">Buscar</button>
+                        <button type="submit" class="btn  bg-color-buttom ">Buscar</button>
                     </div>
 
                 </form>
@@ -27,8 +27,8 @@
         </div>
     </div>
     <div class="col align-self-end">
-        <a class="btn btn-primary" th:href="@{/auth/subtareas/ver-lista-subtareas}" role="button">Ver todas</a>
-        <a class="btn btn-dark" th:href="@{/auth/dias-horas/ver-lista}"  role="button">Ver lista de días y horas</a>
+        <a class="btn bg-color-buttom" th:href="@{/auth/subtareas/ver-lista-subtareas}" role="button">Ver todas</a>
+        <a class="btn bg-color-buttom" th:href="@{/auth/dias-horas/ver-lista}"  role="button">Ver lista de días y horas</a>
     </div>
     <br>
     <table th:if="${!subtareas.isEmpty()}" class="table table-striped table-hover table-sm">

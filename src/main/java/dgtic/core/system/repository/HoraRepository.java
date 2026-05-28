@@ -11,13 +11,9 @@ import java.util.Optional;
 
 public interface HoraRepository extends JpaRepository<Hora, Integer> {
 
-    // Para insertar un DiaTarea con Hora
-    @Procedure(name = "Hora.insertarHora")
-    void insertarHora(
-            @Param("p_id_dia_subtarea") Integer idDiaSubtarea,
-            @Param("p_hora") Integer hora
-    );
     Optional<Hora> findByIdHora(Integer idHora);
+
+    Boolean existsByDia_IdAndHora(Integer idDia, Integer hora);
 
     @Query("SELECT h.hora FROM Hora h WHERE h.dia.id = :idDia")
     List<Integer> findHorasOcupadasPorDia(@Param("idDia") Integer idDia);

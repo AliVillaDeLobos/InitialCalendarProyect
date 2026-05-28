@@ -3,8 +3,8 @@ html {
 }
 body{
      height: 100%;
-      background: #260905;
-      background: linear-gradient(135deg, #E82A05 23%, #F29C8D 100%);
+      background: #0E20F0;
+      background: linear-gradient(135deg, #6E9DF5 23%, #B0E4F5 100%);
 }
 
 .bg-fondo-general{
@@ -18,7 +18,25 @@ body{
 }
 
 .bg-color-titulo{
-    background: #A8A811;
+    background: #fbcf71;
+    background: linear-gradient(135deg, #fbcf71 50%, #c08636 100%);
+}
+
+.bg-color-tarjetas{
+    background: #fbcf71;
+    background: linear-gradient(135deg, #fbcf71 23%, #f9ffb5 100%);
+}
+
+.bg-color-buttom{
+    background: #273566;
+    color: white;
+}
+
+.bg-color-buttom:hover{
+    background: #3b4f91;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    color: white;
 }
 
 /* Texto de los items */

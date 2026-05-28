@@ -6,7 +6,9 @@ import dgtic.core.system.mapper.DiaSubtareaMapper;
 import dgtic.core.system.model.entities.*;
 import dgtic.core.system.model.enums.DiasDeSemana;
 import dgtic.core.system.model.enums.EstadoTarea;
+import dgtic.core.system.repository.DiaRepository;
 import dgtic.core.system.repository.DiaSubtareaRepository;
+import dgtic.core.system.repository.SubtareaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,18 +24,24 @@ public class DiasSubtareaServiceImpl implements DiasSubtareaService {
     private final SubtareaService subtareaService;
     private final SemanaService semanaService;
     private final DiaSubtareaMapper mapper;
+    private final SubtareaRepository subtareaRepository;
+    private final DiaRepository diaRepository;
+
 
 
     @Autowired
     public DiasSubtareaServiceImpl(DiaSubtareaRepository diaSubtareaRepository, HoraService horaService,
                                    SemanaService semanaService, DiaService diaService, SubtareaService subtareaService,
-                                   DiaSubtareaMapper diaSubtareaMapper) {
+                                   DiaSubtareaMapper diaSubtareaMapper, SubtareaRepository subtareaRepository,
+                                   DiaRepository diaRepository) {
         this.diaSubtareaRepository = diaSubtareaRepository;
         this.horaService = horaService;
         this.semanaService = semanaService;
         this.diaService = diaService;
         this.subtareaService = subtareaService;
         this.mapper = diaSubtareaMapper;
+        this.subtareaRepository = subtareaRepository;
+        this.diaRepository = diaRepository;
     }
 
     @Override
@@ -163,6 +171,36 @@ public class DiasSubtareaServiceImpl implements DiasSubtareaService {
     }
 
 
+    @Transactional
+    @Override
+    public void agregarDiasSubtarea(Integer idSubtarea,
+                                    List<DiasDeSemana> diasSemana,
+                                    Integer idSemana) {
+        Subtarea subtarea = subtareaRepository.findById(idSubtarea)
+                .orElseThrow();
+
+        List<Dia> dias = diaRepository.findBySemana_IdAndNombreDiaIn(idSemana, diasSemana);
+
+        List<Integer> diaIds = dias.stream().map(Dia::getId).toList();
+
+        Set<Integer> existentes = diaSubtareaRepository.findExistingDiaIdsBySubtareaAndDiaIds(idSubtarea, diaIds);
+
+        List<DiaSubtarea> nuevos = new ArrayList<>();
+
+        for (Dia dia : dias) {
+            if (!existentes.contains(dia.getId())) {
+
+                DiaSubtarea ds = new DiaSubtarea();
+                ds.setDia(dia);
+                ds.setSubtarea(subtarea);
+                ds.setEstado(EstadoTarea.PENDIENTE);
+
+                nuevos.add(ds);
+            }
+        }
+
+        diaSubtareaRepository.saveAll(nuevos);
+    }
 
 }
 

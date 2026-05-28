@@ -22,7 +22,7 @@ public class Dia {
      @Column(nullable = false)
      @Convert(converter = DiasDeSemanaConverter.class)
     private DiasDeSemana nombreDia;
-     @ManyToOne(fetch = FetchType.EAGER)
+     @ManyToOne(fetch = FetchType.LAZY)
      @JoinColumn(name = "id_semana", nullable = false)
      @ToString.Exclude
     private Semana semana;
