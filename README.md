@@ -35,11 +35,11 @@ Users can:
 
 USER
 email: lucia@email.com
-password: pwd123
+password: clave123
 
 ADMIN
-email: ali@email.com
-password: clave123
+email: ali@gmail.com
+password: pwd123
 
 ### Recently Implemented
 
