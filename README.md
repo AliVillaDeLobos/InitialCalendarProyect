@@ -14,6 +14,13 @@ Task Calendar System is a web application designed to manage tasks and subtasks 
 
 The project was originally developed as part of a software development diploma program and is currently being enhanced with new features, cloud deployment, and usability improvements.
 
+
+### Deployment Considerations
+
+The application is currently hosted on Render's free tier. Due to inactivity policies, the service may enter a sleep state after periods without traffic.
+The first request may take approximately 50–60 seconds while the application starts up. Once the instance is running, performance returns to normal.
+If necessary, wait for the startup period to complete and refresh the page.
+
 Users can:
 
 * Create, update, and delete tasks and subtasks.
@@ -55,6 +62,15 @@ password: clave123
 * Weekly calendar navigation is not fully functional yet.
 * Some task details may not update correctly when selecting events from the calendar.
 * Certain administrative features are intentionally restricted to ADMIN users as part of the project's role-based authorization design.
+
+
+## Cloud Infrastructure
+
+- Application hosting: Render
+- Database: Neon PostgreSQL
+- ORM: Spring Data JPA / Hibernate
+- Authentication: Spring Security
+- Password encryption: BCrypt
 
 ---
 
@@ -153,25 +169,6 @@ src/main/resources
 ├── templates
 └── static
 ```
-
-## Estructura del proyecto
-
-src/main/java/dgctic/core/system
-├── config # Configuraciones de la aplicación
-├── controller # Controladores web
-├── model # Entidades JPA
-├── repository # Repositorios Spring Data JPA
-├── service # Lógica de negocio
-└── utils # Utilidades
-
-src/main/resources
-├── templates # Plantillas Thymeleaf
-└── static # CSS, JS, imágenes
-
-src/main/java/dgctic/core/security
-├── config # Configuraciones de seguridad
-├── model # UserDetails
-├── service # Implementación de seguridad
 
 ## Running Locally
 
