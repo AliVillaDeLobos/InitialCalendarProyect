@@ -154,6 +154,25 @@ src/main/resources
 └── static
 ```
 
+## Estructura del proyecto
+
+src/main/java/dgctic/core/system
+├── config # Configuraciones de la aplicación
+├── controller # Controladores web
+├── model # Entidades JPA
+├── repository # Repositorios Spring Data JPA
+├── service # Lógica de negocio
+└── utils # Utilidades
+
+src/main/resources
+├── templates # Plantillas Thymeleaf
+└── static # CSS, JS, imágenes
+
+src/main/java/dgctic/core/security
+├── config # Configuraciones de seguridad
+├── model # UserDetails
+├── service # Implementación de seguridad
+
 ## Running Locally
 
 ### Requirements
@@ -165,7 +184,7 @@ src/main/resources
 ### Installation
 
 ```bash
-git clone 
+git clone https://github.com/AliVillaDeLobos/TaskFlow.git
 cd project-folder
 mvn spring-boot:run
 ```
