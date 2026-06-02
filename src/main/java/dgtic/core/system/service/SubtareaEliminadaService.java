@@ -15,4 +15,5 @@ public interface SubtareaEliminadaService {
     Page<SubtareasEliminadasDto> subtareasEliminadas(Pageable pageable, List<Subtarea> subtareas, String email);
     Collection<SubtareaEliminada> todasPorUsuario(String email);
     void restaurarSubtarea(Integer idSubtareaEliminada);
+    public void eliminarSubtarea(Integer idSubtarea, String mensaje);
 }

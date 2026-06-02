@@ -1,9 +1,14 @@
 package dgtic.core.system.service;
 
+import dgtic.core.system.exceptions.HoraOcupadException;
+import dgtic.core.system.model.entities.DiaSubtarea;
 import dgtic.core.system.model.entities.Hora;
 import dgtic.core.system.model.entities.Subtarea;
+import dgtic.core.system.repository.DiaSubtareaRepository;
 import dgtic.core.system.repository.HoraRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,20 +19,13 @@ import java.util.stream.IntStream;
 @Service
 public class HoraServiceImpl implements HoraService {
     private HoraRepository horaRepository;
+    private DiaSubtareaRepository diaSubtareaRepository;
 
-    public HoraServiceImpl(HoraRepository horaRepository) {
+    public HoraServiceImpl(HoraRepository horaRepository, DiaSubtareaRepository diaSubtareaRepository) {
         this.horaRepository = horaRepository;
+        this.diaSubtareaRepository = diaSubtareaRepository;
     }
 
-    @Override
-    public void agregarHora(Integer idDiaSubtarea, Integer hora) {
-        try {
-            horaRepository.insertarHora(idDiaSubtarea, hora);
-        } catch (Exception e) {
-                //Puedo crear una EXCEPTION
-            throw new RuntimeException("Error al insertar hora: " + e.getMessage());
-        }
-    }
 
     @Override
     public Optional<Hora> obtenerHoraPorId(Integer idHora) {
@@ -67,5 +65,24 @@ public class HoraServiceImpl implements HoraService {
     @Override
     public Collection<Hora> guardarTodas(Collection<Hora> horas) {
         return horaRepository.saveAll(horas);
+    }
+
+    @Transactional
+    @Override
+    public void insertarHora(Integer idDiaSubtarea, Integer valorHora) {
+
+        DiaSubtarea ds = diaSubtareaRepository.findById(idDiaSubtarea)
+                .orElseThrow();
+
+        Hora hora = new Hora();
+        hora.setDiaSubtarea(ds);
+        hora.setDia(ds.getDia());
+        hora.setHora(valorHora);
+
+        try {
+            horaRepository.save(hora);
+        } catch (DataIntegrityViolationException e) {
+            throw new HoraOcupadException("Ya existe una tarea en esa hora.");
+        }
     }
 }

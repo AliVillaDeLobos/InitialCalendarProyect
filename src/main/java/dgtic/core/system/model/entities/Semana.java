@@ -25,6 +25,6 @@ public class Semana {
     private LocalDate fechaFin;
 
     // Porsi quiero traer los datos de los días a la semana
-    @OneToMany(mappedBy = "semana",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "semana",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Dia> dias;
 }
