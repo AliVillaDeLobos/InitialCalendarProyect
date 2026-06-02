@@ -1,92 +1,193 @@
-# 📅 Proyecto Calendario
+# 📅 Task Calendar System
 
-## Descripción
-Este proyecto es una aplicación web de calendario que permite gestionar tareas y subtareas por día y hora, con funcionalidades de asignación de roles de usuario y control de accesos. Está desarrollado con **Spring Boot**, **Thymeleaf** y **JPA/Hibernate**.
+## Live Demo
 
-Permite:
-- Crear, modificar y eliminar tareas y subtareas.
-- Asignar tareas a días y horarios específicos.
-- Gestionar usuarios con roles (`USER`, `ADMIN`).
-- Visualizar un calendario interactivo con las subtareas ubicadas en el día y hora correspondiente.
+**Application:** LINK
+
+> This project is actively under development. Some features are currently being improved and may not behave as expected.
 
 ---
 
-## Tecnologías
-- **Backend:** Java 17, Spring Boot 3.x
-- **Frontend:** Thymeleaf, HTML5, CSS3, Bootstrap
-- **Base de datos:** PostgreSQL(producción y H2 MariaDB(dev)
-- **Seguridad:** Spring Security, BCrypt
-- **Control de versiones:** Git
+## Overview
+
+Task Calendar System is a web application designed to manage tasks and subtasks through an interactive calendar interface.
+
+The project was originally developed as part of a software development diploma program and is currently being enhanced with new features, cloud deployment, and usability improvements.
+
+Users can:
+
+* Create, update, and delete tasks and subtasks.
+* Schedule activities by date and time.
+* Manage personal task planning through a calendar view.
+* Access features based on role permissions (`USER`, `ADMIN`).
 
 ---
 
-## Arquitectura
+## Current Development Status
 
-- MVC con Spring Boot
-- Spring Security + BCrypt
-- Persistencia con Spring Data JPA
-- Thymeleaf para renderizado del frontend
+## Demo Account
+
+USER
+email: lucia@email.com
+password: pwd123
+
+ADMIN
+email: ali@email.com
+password: clave123
+
+### Recently Implemented
+
+* Migration from local MariaDB environment to PostgreSQL.
+* Cloud database deployment using Neon.
+* Application deployment using Render.
+* Security improvements with Spring Security and BCrypt.
+* Role-based access control.
+
+### Features Under Improvement
+
+* Weekly calendar navigation (previous/next week).
+* Calendar side panels synchronization.
+* Task detail visualization inside the weekly calendar.
+* UI/UX refinements and responsiveness.
+
+### Known Limitations
+
+* Weekly calendar navigation is not fully functional yet.
+* Some task details may not update correctly when selecting events from the calendar.
+* Certain administrative features are intentionally restricted to ADMIN users as part of the project's role-based authorization design.
 
 ---
 
-## Funcionalidades principales
+## Tech Stack
 
-### Gestión de usuarios
-- Registro de nuevos usuarios.
-- Inicio de sesión y cierre de sesión.
-- Roles y permisos (`USER`, `ADMIN`).
+### Backend
 
-### Gestión de tareas y subtareas
-- Crear tareas y subtareas asociadas a días específicos.
-- Asignar horarios a las subtareas.
-- Editar y eliminar tareas y subtareas.
+* Java 17
+* Spring Boot 3
+* Spring Data JPA
+* Hibernate
 
-### Visualización de calendario
-- Vista semanal o mensual.
-- Subtareas visibles en el día y hora correspondiente.
-- Colores o indicadores según prioridad o estado de la tarea.
+### Frontend
 
-### Seguridad
-- Encriptación de contraseñas con BCrypt.
-- Control de acceso a rutas según rol.
+* Thymeleaf
+* HTML5
+* CSS3
+* Bootstrap
+
+### Database
+
+* PostgreSQL (Production)
+* H2 / MariaDB (Development)
+
+### Security
+
+* Spring Security
+* BCrypt Password Encoding
+
+### Deployment
+
+* Render
+* Neon PostgreSQL
 
 ---
 
-## Estructura del proyecto
+## Architecture
 
+The application follows the MVC pattern:
+
+* Controllers handle HTTP requests.
+* Services contain business logic.
+* Repositories manage data persistence.
+* Thymeleaf renders server-side views.
+* Spring Security manages authentication and authorization.
+
+---
+
+## Main Features
+
+### User Management
+
+* User registration.
+* Login and logout.
+* Role-based permissions.
+* Profile management.
+
+### Task Management
+
+* Create tasks and subtasks.
+* Assign dates and schedules.
+* Edit and delete entries.
+* Organize activities through calendar views.
+
+### Calendar
+
+* Weekly planning interface.
+* Time-slot based organization.
+* Visual task distribution by day and hour.
+
+### Security
+
+* Encrypted passwords with BCrypt.
+* Route protection based on roles.
+* Restricted administrative functionality.
+
+---
+
+## Project Structure
+
+```text
 src/main/java/dgctic/core/system
-├── config # Configuraciones de la aplicación
-├── controller # Controladores web
-├── model # Entidades JPA
-├── repository # Repositorios Spring Data JPA
-├── service # Lógica de negocio
-└── utils # Utilidades
-
-src/main/resources
-├── templates # Plantillas Thymeleaf
-└── static # CSS, JS, imágenes
+├── config
+├── controller
+├── model
+├── repository
+├── service
+└── utils
 
 src/main/java/dgctic/core/security
-├── config # Configuraciones de seguridad
-├── model # UserDetails
-├── service # Implementación de seguridad
+├── config
+├── model
+└── service
+
+src/main/resources
+├── templates
+└── static
+```
+
+## Running Locally
+
+### Requirements
+
+* Java 17+
+* Maven 3.8+
+* PostgreSQL (or H2 for development)
+
+### Installation
+
+```bash
+git clone 
+cd project-folder
+mvn spring-boot:run
+```
+
+---
+
+## Roadmap
+
+* [ ] Complete weekly calendar navigation.
+* [ ] Improve calendar event interaction.
+* [ ] Add drag-and-drop scheduling.
+* [ ] Improve responsive design.
 
 
 ---
 
-## Requisitos
-- Java 17+
-- Maven 3.8+
-- Base de datos (H2 para desarrollo, MySQL/PostgreSQL para producción)
+## Author
 
----
+Developed and maintained as a continuous learning and portfolio project focused on:
 
-## Uso
-1. Regístrate como usuario.
-2. Accede al calendario para crear tus tareas y subtareas.
-3. Administra tareas con fechas y horas específicas.
-
----
-
-## Licencia
-MIT License © AliV16
+* Spring Boot
+* Security and Roles
+* Cloud Deployment
+* PostgreSQL
+* Full-Stack Development
