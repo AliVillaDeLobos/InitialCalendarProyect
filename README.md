@@ -17,6 +17,8 @@ The project was originally developed as part of a software development diploma p
 
 ### Deployment Considerations
 
+> ⚠️ First visit may take up to 60 seconds due to Render's free-tier cold start. If necessary, wait for the startup period to complete and refresh the page.
+
 The application is currently hosted on Render's free tier. Due to inactivity policies, the service may enter a sleep state after periods without traffic.
 The first request may take approximately 50–60 seconds while the application starts up. Once the instance is running, performance returns to normal.
 If necessary, wait for the startup period to complete and refresh the page.
