@@ -181,7 +181,7 @@ src/main/resources
 
 ```bash
 git clone https://github.com/AliVillaDeLobos/TaskFlow.git
-cd project-folder
+cd "project-folder"
 mvn spring-boot:run
 ```
 
